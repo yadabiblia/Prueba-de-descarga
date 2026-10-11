@@ -503,7 +503,7 @@
                 </div>
             </div>
 
-            <!-- TARJETA BANNER INFORMATIVA CON BOTONES DE DESCARGA RÁPIDA (PDF E IMAGEN) -->
+            <!-- TARJETA BANNER INFORMATIVA CON BOTONES DE DESCARGA (PDF E IMAGEN) -->
             <div id="banner-devocional" class="tema-card p-6 rounded-2xl border shadow-sm space-y-4">
                 <div class="flex items-start gap-3">
                     <div class="p-2 bg-blue-500/10 text-blue-600 rounded-lg">
@@ -743,7 +743,7 @@
         </div>
     </div>
 
-    <!-- SCRIPT LOGICA UNIFICADA Y SOPORTE DE IMAGEN CON OPCIÓN 3 -->
+    <!-- SCRIPT LOGICA UNIFICADA Y DESCARGA DE IMAGEN CORREGIDA -->
     <script>
         const LIBROS_BIBLIA = [
           { id: 'GEN', nombre: 'Génesis', testamento: 'AT', archivo: 'Genesis.txt', caps: 50 },
@@ -1267,7 +1267,7 @@
           document.getElementById('modalAvances').classList.remove('oculto');
         }
 
-        /* --- DEVOCIONAL, PDF Y DESCARGA DE IMAGEN (OPCIÓN 3) --- */
+        /* --- DEVOCIONAL, PDF Y DESCARGA DE IMAGEN SEGURO --- */
         function addKeyWordRow(word = '', meaning = '') {
             keyWordCount++;
             const container = document.getElementById('keywords-container');
@@ -1342,45 +1342,40 @@
             const element = document.getElementById('doc-page-1');
             
             if (typeof html2canvas === 'undefined') {
-                alert('Cargando módulo de imagen, por favor intenta de nuevo.');
+                alert('Cargando módulo de imagen, por favor intenta de nuevo en unos segundos.');
                 return;
             }
 
             try {
-                const canvas = await html2canvas(element, { scale: 2, useCORS: true, backgroundColor: '#FFFFFF' });
+                const canvas = await html2canvas(element, { 
+                    scale: 2, 
+                    useCORS: true, 
+                    backgroundColor: '#FFFFFF' 
+                });
                 
-                canvas.toBlob(async (blob) => {
-                    const nombreArchivo = `Devocional_${document.getElementById('input-libro').value || 'Biblia'}_${document.getElementById('input-capitulo').value || '1'}.png`;
-                    const file = new File([blob], nombreArchivo, { type: 'image/png' });
-                    
-                    // Si el dispositivo soporta compartir archivos nativamente (WhatsApp, Guardar en Fotos, etc.)
-                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
-                        try {
-                            await navigator.share({
-                                files: [file],
-                                title: 'Mi Devocional Diario',
-                                text: 'Te comparto mi devocional de hoy.'
-                            });
-                        } catch (err) {
-                            console.log('Compartir cancelado por el usuario.');
-                        }
-                    } else {
-                        // Fallback seguro de descarga por Blob
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement('a');
-                        a.href = url;
-                        a.download = nombreArchivo;
-                        document.body.appendChild(a);
-                        a.click();
-                        setTimeout(() => {
-                            document.body.removeChild(a);
-                            URL.revokeObjectURL(url);
-                        }, 100);
+                const nombreArchivo = `Devocional_${document.getElementById('input-libro').value || 'Biblia'}_${document.getElementById('input-capitulo').value || '1'}.png`;
+                
+                canvas.toBlob((blob) => {
+                    if (!blob) {
+                        alert('No se pudo generar el archivo de imagen.');
+                        return;
                     }
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = nombreArchivo;
+                    document.body.appendChild(a);
+                    a.click();
+                    
+                    setTimeout(() => {
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    }, 200);
                 }, 'image/png');
+
             } catch (err) {
                 console.error("Error al generar la imagen:", err);
-                alert("No se pudo generar la imagen en este dispositivo.");
+                alert("No se pudo generar la imagen.");
             }
         }
 
