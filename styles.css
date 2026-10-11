@@ -1,0 +1,72 @@
+/* ===================================================
+   PALETA PRINCIPAL (RECOMENDADA: Luz y Conocimiento)
+   =================================================== */
+:root {
+  --color-primary: #1E293B;   /* Azul Noche Profundo */
+  --color-accent: #D97706;    /* Dorado / Ámbar Cálido */
+  --color-bg: #FDFBF7;        /* Fondo Marfil suave */
+  --color-text: #334155;      /* Texto Gris Oscuro */
+  --color-card-bg: #FFFFFF;   /* Fondo para tarjetas/tarjetones */
+}
+
+/* ===================================================
+   PALETA 2: Serenidad y Esperanza
+   (Aplica agregando class="tema-serenidad" al <body>)
+   =================================================== */
+body.tema-serenidad {
+  --color-primary: #064E3B;   /* Verde Esmeralda Oscuro */
+  --color-accent: #EAB308;    /* Dorado Suave */
+  --color-bg: #F0FDFA;        /* Fondo Gris Mente Clarísimo */
+  --color-text: #1F2937;      /* Texto Gris Grafito */
+  --color-card-bg: #FFFFFF;
+}
+
+/* ===================================================
+   PALETA 3: Elegancia Clásica
+   (Aplica agregando class="tema-clasico" al <body>)
+   =================================================== */
+body.tema-clasico {
+  --color-primary: #0F172A;   /* Azul Marino Clásico */
+  --color-accent: #C2410C;    /* Bronce / Terracota */
+  --color-bg: #F5F2EB;        /* Fondo Beige Pergamino */
+  --color-text: #292524;      /* Texto Marrón / Negro Suave */
+  --color-card-bg: #FAF8F5;
+}
+
+/* ===================================================
+   ESTILOS GENERALES (Uso de las variables)
+   =================================================== */
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: system-ui, -apple-system, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+/* Encabezado / Navbar */
+.header {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  padding: 1rem;
+}
+
+/* Botón principal */
+.btn-primary {
+  background-color: var(--color-accent);
+  color: #FFFFFF;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Tarjetas o contenedores de texto */
+.card {
+  background-color: var(--color-card-bg);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 8px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
